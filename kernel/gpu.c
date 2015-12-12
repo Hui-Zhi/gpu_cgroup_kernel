@@ -85,17 +85,17 @@ static inline is_sched_load_balance(const struct gpu *cs)
 static struct dentry *gpu_mount(struct file_system_type *fs_type,
                 int flags, const char *unused_dev_name, void *data)
 {
-        struct file_system_type *cgroup_fs = get_fs_type("cgroup");
-        struct dentry *ret = ERR_PTR(-ENODEV);
-        if (cgroup_fs) {
-                char mountopts[] =
-                        "gpu,"
-                        "release_agent=/sbin/gpu_release_agent";
-                ret = cgroup_fs->mount(cgroup_fs, flags,
-                                                unused_dev_name, mountopts);
-                put_filesystem(cgroup_fs);
-        }
-        return ret;
+	struct file_system_type *cgroup_fs = get_fs_type("cgroup");
+	struct dentry *ret = ERR_PTR(-ENODEV);
+	if (cgroup_fs) {
+		char mountopts[] =
+							"gpu,"
+							"release_agent=/sbin/gpu_release_agent";
+		ret = cgroup_fs->mount(cgroup_fs, flags,
+											unused_dev_name, mountopts);
+		put_filesystem(cgroup_fs);
+	}
+	return ret;
 }
 
 static struct file_system_type gpu_fs_type = {
@@ -403,13 +403,13 @@ static void gpu_attach(struct cgroup_subsys_state *css,
 
 struct cgroup_subsys gpu_cgrp_subsys = {
 	.css_alloc = gpu_css_alloc,
-	.css_online = gpu_css_online,
-	.css_offline = gpu_css_offline,
+//	.css_online = gpu_css_online,
+//	.css_offline = gpu_css_offline,
 	.css_free = gpu_css_free,
-	.can_attach = gpu_can_attach,
-	.cancel_attach = gpu_cancel_attach,
-	.attach = gpu_attach,
-	.bind = gpu_bind,
+//	.can_attach = gpu_can_attach,
+//	.cancel_attach = gpu_cancel_attach,
+//	.attach = gpu_attach,
+//	.bind = gpu_bind,
 	.legacy_cftypes = files,
 	.early_init = 1,
 };
@@ -421,7 +421,7 @@ int __init gpu_init(void)
 	printk("gpu cgroup init\n");
   err = register_filesystem(&gpu_fs_type);
   if (err < 0)
-        return err;
+		return err;
 
 	return 0;
 }
