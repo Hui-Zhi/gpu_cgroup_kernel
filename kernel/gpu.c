@@ -44,7 +44,7 @@ static inline struct gpu *parent_cs(struct gpu *cs)
 {
 	return css_cs(cs->css.parent);
 }
-
+/*
 static struct dentry *gpu_mount(struct file_system_type *fs_type,
                 int flags, const char *unused_dev_name, void *data)
 {
@@ -65,7 +65,7 @@ static struct file_system_type gpu_fs_type = {
         .name = "gpu",
         .mount = gpu_mount,
 };
-
+*/
 typedef enum {
 	GPU_STAT,
 } gpu_filetype_t;
@@ -148,11 +148,11 @@ struct cgroup_subsys gpu_cgrp_subsys = {
 
 int __init gpu_init(void)
 {
-	int err = 0;
+//	int err = 0;
 	printk("gpu cgroup init\n");
-  err = register_filesystem(&gpu_fs_type);
-  if (err < 0)
-		return err;
+//  err = register_filesystem(&gpu_fs_type);
+//  if (err < 0)
+//		return err;
 
 	return 0;
 }
