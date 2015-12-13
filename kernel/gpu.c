@@ -72,7 +72,7 @@ typedef enum {
 
 static int gpu_stats_show(struct seq_file *sf, void *v)
 {
-	return 50;
+	return 0;
 }
 
 static struct cftype files[] = {
@@ -138,10 +138,10 @@ struct cgroup_subsys gpu_cgrp_subsys = {
 	.css_online = gpu_css_online,
 	.css_offline = gpu_css_offline,
 	.css_free = gpu_css_free,
-//	.can_attach = gpu_can_attach,
-//	.cancel_attach = gpu_cancel_attach,
-//	.attach = gpu_attach,
-//	.bind = gpu_bind,
+	.can_attach = gpu_can_attach,
+	.cancel_attach = gpu_cancel_attach,
+	.attach = gpu_attach,
+	.bind = gpu_bind,
 	.dfl_cftypes = files,
 	.legacy_cftypes = files,
 	.early_init = 0,
