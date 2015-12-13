@@ -87,20 +87,21 @@ static struct cftype files[] = {
 static struct cgroup_subsys_state *
 gpu_css_alloc(struct cgroup_subsys_state *parent_css)
 {
-        struct gpu *cs;
-        cs = kzalloc(sizeof(*cs), GFP_KERNEL);
+	struct gpu *cs;
+	
+	cs = kzalloc(sizeof(*cs), GFP_KERNEL);
 
-        if (!cs)
-                return ERR_PTR(-ENOMEM);
+	if (!cs)
+		return ERR_PTR(-ENOMEM);
 
-        return &cs->css;
+	return &cs->css;
 }
 
 static void gpu_css_free(struct cgroup_subsys_state *css)
 {
-        struct gpu *cs = css_cs(css);
+	struct gpu *cs = css_cs(css);
 
-        kfree(cs);
+	kfree(cs);
 }
 
 static int gpu_css_online(struct cgroup_subsys_state *css)
@@ -137,10 +138,10 @@ struct cgroup_subsys gpu_cgrp_subsys = {
 	.css_online = gpu_css_online,
 	.css_offline = gpu_css_offline,
 	.css_free = gpu_css_free,
-	.can_attach = gpu_can_attach,
-	.cancel_attach = gpu_cancel_attach,
-	.attach = gpu_attach,
-	.bind = gpu_bind,
+//	.can_attach = gpu_can_attach,
+//	.cancel_attach = gpu_cancel_attach,
+//	.attach = gpu_attach,
+//	.bind = gpu_bind,
 	.dfl_cftypes = files,
 	.legacy_cftypes = files,
 	.early_init = 0,
