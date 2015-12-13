@@ -36,7 +36,6 @@
 
 
 static DEFINE_MUTEX(gpu_mutex);
-static DEFINE_SPINLOCK(callback_lock);
 
 struct gpu {
 	struct cgroup_subsys_state css;
@@ -65,7 +64,7 @@ static struct dentry *gpu_mount(struct file_system_type *fs_type,
 	struct dentry *ret = ERR_PTR(-ENODEV);
 	if (cgroup_fs) {
 		char mountopts[] =
-							"gpu,"
+							"gpu,noprefix,"
 							"release_agent=/sbin/gpu_release_agent";
 		ret = cgroup_fs->mount(cgroup_fs, flags,
 											unused_dev_name, mountopts);
