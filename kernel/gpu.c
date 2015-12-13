@@ -7,30 +7,18 @@
 #include <linux/kernel.h>
 #include <linux/kmod.h>
 #include <linux/list.h>
-#include <linux/mempolicy.h>
-#include <linux/mm.h>
-#include <linux/memory.h>
-#include <linux/export.h>
 #include <linux/mount.h>
 #include <linux/namei.h>
-#include <linux/pagemap.h>
-#include <linux/proc_fs.h>
 #include <linux/rcupdate.h>
-#include <linux/sched.h>
-#include <linux/seq_file.h>
-#include <linux/security.h>
 #include <linux/slab.h>
 #include <linux/spinlock.h>
 #include <linux/stat.h>
 #include <linux/string.h>
 #include <linux/time.h>
-#include <linux/backing-dev.h>
-#include <linux/sort.h>
 
 #include <asm/uaccess.h>
 #include <linux/atomic.h>
 #include <linux/mutex.h>
-#include <linux/workqueue.h>
 #include <linux/cgroup.h>
 #include <linux/wait.h>
 
@@ -115,19 +103,48 @@ static void gpu_css_free(struct cgroup_subsys_state *css)
         kfree(cs);
 }
 
+static int gpu_css_online(struct cgroup_subsys_state *css)
+{
+	return 0;
+}
+
+static void gpu_css_offline(struct cgroup_subsys_state *css)
+{
+}
+
+static int gpu_can_attach(struct cgroup_subsys_state *css,
+					struct cgroup_taskset *tset)
+{
+	return 0;
+}
+
+static void gpu_cancel_attach(struct cgroup_subsys_state *css,
+					struct cgroup_taskset *tset)
+{
+}
+
+static void gpu_attach(struct cgroup_subsys_state *css,
+					struct cgroup_taskset *tset)
+{
+}
+
+static void gpu_bind(struct cgroup_subsys_state *root_css)
+{
+}
+
 struct cgroup_subsys gpu_cgrp_subsys = {
 	.css_alloc = gpu_css_alloc,
-//	.css_online = gpu_css_online,
-//	.css_offline = gpu_css_offline,
+	.css_online = gpu_css_online,
+	.css_offline = gpu_css_offline,
 	.css_free = gpu_css_free,
-//	.can_attach = gpu_can_attach,
-//	.cancel_attach = gpu_cancel_attach,
-//	.attach = gpu_attach,
-//	.bind = gpu_bind,
+	.can_attach = gpu_can_attach,
+	.cancel_attach = gpu_cancel_attach,
+	.attach = gpu_attach,
+	.bind = gpu_bind,
+	.dfl_cftypes = files,
 	.legacy_cftypes = files,
-	.early_init = 1,
+	.early_init = 0,
 };
-
 
 int __init gpu_init(void)
 {
